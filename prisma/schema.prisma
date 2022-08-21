@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BackDrops {
+  id       BigInt  @id @default(autoincrement())
+  path     String?
+  moviesId BigInt?
+  Movies   Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Cast {
+  id        BigInt  @id @default(autoincrement())
+  name      String?
+  character String?
+  profile   String?
+  moviesId  BigInt?
+  Movies    Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Crew {
+  id         BigInt  @id @default(autoincrement())
+  name       String?
+  real_name  String?
+  department String?
+  profile    String?
+  job        String?
+  moviesId   BigInt?
+  Movies     Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Genre {
+  id       BigInt  @id @default(autoincrement())
+  genreId  BigInt?
+  name     String?
+  moviesId BigInt?
+  Movies   Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Meta {
+  id           BigInt  @id @default(autoincrement())
+  title        String
+  overview     String?
+  popularity   Float?
+  backdrop     String?
+  poster       String?
+  release_date String?
+  runtime      BigInt?
+  rating       Float?
+  moviesId     BigInt?
+  Movies       Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Movies {
+  id             BigInt      @id @default(autoincrement())
+  movieId        BigInt      @unique
+  movieId_mapped BigInt      @unique
+  imdbId         String
+  tmdbId         String
+  BackDrops      BackDrops[]
+  Cast           Cast[]
+  Crew           Crew[]
+  Genre          Genre[]
+  Meta           Meta[]
+  Posters        Posters[]
+  Videos         Videos[]
+}
+
+model Posters {
+  id       BigInt  @id @default(autoincrement())
+  path     String?
+  moviesId BigInt?
+  Movies   Movies? @relation(fields: [moviesId], references: [id])
+}
+
+model Videos {
+  id          BigInt   @id @default(autoincrement())
+  name        String?
+  key         String?
+  site        String?
+  size        String?
+  type        String?
+  videoId     String?
+  is_official Boolean?
+  moviesId    BigInt?
+  Movies      Movies?  @relation(fields: [moviesId], references: [id])
+}
