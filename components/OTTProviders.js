@@ -10,7 +10,7 @@ export const OTTProvider = ({ movieId }) => {
   if (tz) {
     tz = tz.toUpperCase();
   }
-  console.log(tz);
+  // console.log(tz);
   useEffect(() => {
     const get_providers = async () => {
       // https://api.themoviedb.org/3/movie/{movie_id}/watch/providers?api_key=<<api_key>>
@@ -26,9 +26,9 @@ export const OTTProvider = ({ movieId }) => {
     };
     get_providers();
   }, []);
-  console.log("PROVIDERS: ", providers);
+  // console.log("PROVIDERS: ", providers);
   if (tz && providers) {
-    console.log("PROVIDERS");
+    // console.log("PROVIDERS");
     return (
       <div className="space-y-1 md:space-y-2 flex flex-col">
         {Object.keys(providers).map((k, idx) => (
@@ -47,8 +47,8 @@ export const OTTProvider = ({ movieId }) => {
 };
 
 export const ProviderList = ({ provision_type, provider, link }) => {
-  console.log("PT: ", provision_type);
-  console.log("PV: ", provider);
+  // console.log("PT: ", provision_type);
+  // console.log("PV: ", provider);
   if (provision_type === "link") {
     return <></>;
   }
