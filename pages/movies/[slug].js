@@ -34,7 +34,7 @@ const Movie = () => {
 
   return (
     <div className="py-2 px-4 flex flex-col mx-auto min-w-full min-h-screen bg-gradient-to-l from-black via-slate-700 to-black">
-      <Header />
+      <Header loading={loading} />
       {movie ? (
         <div className="p-2 flex flex-col ">
           <Head>
