@@ -3,7 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { urls } from "../urls";
 
-export const SearchInput = ({ movie, setSearchMovie }) => {
+export const SearchInput = ({
+  movie,
+  setSearchMovie,
+  clearSearch,
+  searchVal,
+  setSearchVal,
+}) => {
   const filterRef = useRef();
   useEffect(() => {
     let delayTimeOutFunction;
@@ -19,7 +25,7 @@ export const SearchInput = ({ movie, setSearchMovie }) => {
   }, [movie]);
 
   return (
-    <div className="sticky min-w-full">
+    <div className="min-w-full flex flex-row items-center space-x-1 ">
       <div className="relative min-w-full">
         <label className="sr-only" htmlFor="search">
           Search
@@ -27,6 +33,7 @@ export const SearchInput = ({ movie, setSearchMovie }) => {
 
         <input
           className="min-w-full md:w-[40vw] font-comforta py-3 pl-3 pr-12 text-sm border-2 border-gray-200 rounded-md"
+          value={searchVal}
           id="search"
           type="search"
           placeholder="Search Movies"
@@ -47,6 +54,27 @@ export const SearchInput = ({ movie, setSearchMovie }) => {
             />
           </svg>
         </span>
+      </div>
+      <div>
+        <button
+          onClick={() => {
+            clearSearch();
+          }}
+          className="inline-block p-1 text-slate-200 border border-slate-200 rounded-full hover:text-white hover:bg-slate-600 active:bg-red-400 focus:outline-none focus:ring"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
     </div>
   );

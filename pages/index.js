@@ -13,6 +13,7 @@ export default function Home() {
   const [selectedMovies, setSelectedMovies] = useState([]);
   const [recommending, setRecommending] = useState(false);
   const [recommended, setRecommended] = useState([]);
+  const [searchVal, setSearchVal] = useState("");
   // console.log("URLS: ", urls);
   // console.log(process.env.REC_URL, process.env.IMG_URL)
   useEffect(() => {
@@ -64,6 +65,7 @@ export default function Home() {
 
   const searchMovie = async (event) => {
     const txt = event.target.value;
+    setSearchVal(txt);
     // console.log("SEARCH TEXT: ", txt);
     if (txt.length == 0) {
       setMatchedMovies([]);
@@ -74,6 +76,11 @@ export default function Home() {
       // console.log(j);
       setMatchedMovies([...j]);
     }
+  };
+
+  const clearSearch = () => {
+    setSearchVal("");
+    setMatchedMovies([]);
   };
 
   const onClickCross = (e, cancelled_movie) => {
@@ -101,7 +108,13 @@ export default function Home() {
           MovieBERT
         </div>
         <div className={`flex flex-col items-center space-y-2 md:space-x-1`}>
-          <SearchInput movie={matchedMovies} setSearchMovie={searchMovie} />
+          <SearchInput
+            searchVal={searchVal}
+            setSearchVal={setSearchVal}
+            movie={matchedMovies}
+            setSearchMovie={searchMovie}
+            clearSearch={clearSearch}
+          />
           {recommending ? (
             <button className="btn btn-square loading"></button>
           ) : (
