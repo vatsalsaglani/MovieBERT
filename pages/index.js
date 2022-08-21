@@ -13,8 +13,8 @@ export default function Home() {
   const [selectedMovies, setSelectedMovies] = useState([]);
   const [recommending, setRecommending] = useState(false);
   const [recommended, setRecommended] = useState([]);
-  console.log("URLS: ", urls);
-  console.log(process.env.REC_URL, process.env.IMG_URL)
+  // console.log("URLS: ", urls);
+  // console.log(process.env.REC_URL, process.env.IMG_URL)
   useEffect(() => {
     const warmup = async () => {
       const resp = await fetch("/api/recommendations", {
