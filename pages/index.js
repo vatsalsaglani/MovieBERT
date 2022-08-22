@@ -167,7 +167,7 @@ export default function Home() {
         ) : null}
       </div>
       <Toaster />
-      <footer class="px-2 md:px-4 flex flex-row justify-between items-center mt-[-5vh] mb-[5vh]">
+      <footer className="px-2 md:px-4 flex flex-row justify-between items-center mt-[-5vh] mb-[5vh]">
         <div
           className={`text-sm  font-light text-gray-600 italic font-comforta justify-start items-start`}
         >
