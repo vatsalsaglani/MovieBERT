@@ -92,7 +92,7 @@ const Movie = () => {
             </div>
             <SwipingCastSmall cast={movie?.Cast} />
           </div>
-          <div className="hidden md:block md:mt-[41vh] space-y-2">
+          <div className="hidden md:block md:mt-[5vh] lg:mt-[28vh] space-y-2">
             <div className="text-xl md:text-2xl font-comforta font-bold text-teal-50">
               {"Top Cast"}
             </div>
