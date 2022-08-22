@@ -7,6 +7,7 @@ import { MovieCard } from "../components/MovieCard";
 import { Toaster } from "react-hot-toast";
 import { CustomToast } from "../components/ToastAlert";
 import { urls } from "../urls";
+import Link from "next/link";
 
 export default function Home() {
   const [matchedMovies, setMatchedMovies] = useState([]);
@@ -102,10 +103,12 @@ export default function Home() {
       <div
         className={`flex min-h-screen flex-col justify-center items-center space-y-4`}
       >
-        <div
-          className={`text-3xl font-extrabold text-teal-300 tracking-wider font-comforta `}
-        >
-          MovieBERT
+        <div className="items-center justify-center">
+          <div
+            className={`text-3xl font-extrabold text-teal-300 tracking-wider font-comforta `}
+          >
+            MovieBERT
+          </div>
         </div>
         <div className={`flex flex-col items-center space-y-2 md:space-x-1`}>
           <SearchInput
@@ -164,6 +167,48 @@ export default function Home() {
         ) : null}
       </div>
       <Toaster />
+      <footer class="px-2 md:px-4 flex flex-row justify-between items-center mt-[-5vh] mb-[5vh]">
+        <div
+          className={`text-sm  font-light text-gray-600 italic font-comforta justify-start items-start`}
+        >
+          Developed by:{" "}
+          <Link href={"https://twitter.com/saglanivatsal"} target={"blank"}>
+            <a
+              className="hover:underline hover:decoration-teal-200 hover:transition-all hover:text-teal-400"
+              target={"_blank"}
+            >
+              @saglanivatsal
+            </a>
+          </Link>
+        </div>
+        <div>
+          <div
+            className={`text-sm  font-light text-gray-600 italic font-comforta justify-start items-start`}
+          >
+            <Link href={"https://www.vatsalsaglani.dev"} target={"blank"}>
+              <a
+                className="hover:underline hover:decoration-teal-200 hover:transition-all hover:text-teal-200"
+                target={"_blank"}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                  />
+                </svg>
+              </a>
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
