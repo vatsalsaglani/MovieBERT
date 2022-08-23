@@ -90,3 +90,8 @@ model Videos {
   moviesId    BigInt?
   Movies      Movies?  @relation(fields: [moviesId], references: [id])
 }
+
+model RecCounts {
+  id    BigInt @id @default(1)
+  count BigInt @default(1)
+}
