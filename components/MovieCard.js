@@ -6,8 +6,10 @@ export const MovieCard = ({ movie, onRemove }) => {
   return (
     <Link href={`/movies/${movie.id}`} target="_blank">
       <a
-        className={`relative block overflow-hidden rounded-2xl ${
-          movie?.isRecommended ? "border border-green-400 border-dashed" : ""
+        className={`relative block   overflow-hidden rounded-2xl ${
+          movie?.isRecommended
+            ? "border border-green-400 border-dashed hover:border-green-700 hover:border-2"
+            : "hover:ring hover:ring-teal-100"
         }`}
         target={"_blank"}
       >
