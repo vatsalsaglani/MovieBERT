@@ -8,6 +8,30 @@ import { Toaster } from "react-hot-toast";
 import { CustomToast } from "../components/ToastAlert";
 import { urls } from "../urls";
 import Link from "next/link";
+import { IoMdFlash } from "react-icons/io";
+import { AiOutlineClear } from "react-icons/ai";
+import { fetcher } from "../lib/fetcher";
+import useSWR from "swr";
+
+const RecCounter = () => {
+  const { data, error } = useSWR("/api/recommendations", fetcher, {
+    refreshInterval: 10000,
+  });
+  return (
+    <div
+      className={`text-sm  font-light text-gray-500 font-comforta justify-start items-start`}
+    >
+      <div className="has-tooltip">
+        <span className="tooltip -mt-8 rounded bg-transparent p-1 text-gray-200 shadow-lg">
+          Number of recommendations done
+        </span>
+        <div className="flex font-comforta flex-row space-x-1 items-center">
+          <IoMdFlash size={20} /> {data?.num_recs}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default function Home() {
   const [matchedMovies, setMatchedMovies] = useState([]);
@@ -15,6 +39,7 @@ export default function Home() {
   const [recommending, setRecommending] = useState(false);
   const [recommended, setRecommended] = useState([]);
   const [searchVal, setSearchVal] = useState("");
+  // const [recCounts, setRecCounts] = useState("");
   // console.log("URLS: ", urls);
   // console.log(process.env.REC_URL, process.env.IMG_URL)
   useEffect(() => {
@@ -24,6 +49,7 @@ export default function Home() {
         body: JSON.stringify({
           selected: [222, 232],
           hist: 2,
+          isWarmUp: true,
         }),
         headers: {
           Accept: "application/json",
@@ -32,8 +58,31 @@ export default function Home() {
       });
       const data = await resp.json();
     };
+    // const views = async () => {
+    //   const resp = await fetch("/api/recommendations");
+    //   const data = await resp.json();
+    //   console.log("DATA: ", data);
+    //   setRecCounts(data.num_recs);
+    // };
     warmup();
+    // views();
   }, []);
+
+  const keepUniqueMatched = (recommended) => {
+    console.log(
+      "REC: ",
+      recommended.map((rec) => rec.id)
+    );
+    console.log(
+      "AVAILABLE: ",
+      selectedMovies.map((rec) => rec.id)
+    );
+    const available = selectedMovies.map((movie) => movie.id);
+    const keep_recommended = recommended.filter(
+      (movie) => !available.includes(movie.id)
+    );
+    return keep_recommended;
+  };
 
   const onClickRecommend = async () => {
     if (selectedMovies.length > 0) {
@@ -43,6 +92,7 @@ export default function Home() {
         method: "POST",
         body: JSON.stringify({
           selected: selectedIds,
+          isWarmUp: false,
         }),
         headers: {
           Accept: "application/json",
@@ -52,8 +102,17 @@ export default function Home() {
       const data = await resp.json();
       if (data.ok) {
         // console.log("RECOMMENDATIONS: ", data);
-        setRecommended([...data.movies]);
-        setSelectedMovies([...selectedMovies, ...data.movies]);
+
+        let keep_recommended = keepUniqueMatched(data.movies);
+        if (keep_recommended.length > 0) {
+          setRecommended([...recommended, ...keep_recommended]);
+          setSelectedMovies([...selectedMovies, ...keep_recommended]);
+        } else {
+          CustomToast({
+            title: "Recommendations Exhausted",
+            info: "All the best movies have been recommended. For better results, select at least 3 movies at start. I am still learning more user patterns, you might find more recommendation in future",
+          });
+        }
       }
       setRecommending(false);
     } else {
@@ -91,6 +150,13 @@ export default function Home() {
     );
     setSelectedMovies([...new_selected]);
     e.preventDefault();
+  };
+
+  const onClickClear = () => {
+    setMatchedMovies([]);
+    setRecommended([]);
+    setSelectedMovies([]);
+    setSearchVal("");
   };
 
   return (
@@ -168,34 +234,53 @@ export default function Home() {
             setSearchMovie={searchMovie}
             clearSearch={clearSearch}
           />
-          {recommending ? (
-            <button className="btn btn-square loading"></button>
-          ) : (
-            <button
-              className="relative inline-flex px-8 py-3 items-center overflow-hidden text-teal-600 border border-current rounded group active:text-teal-500 focus:outline-none focus:ring"
-              type="button"
-              onClick={() => onClickRecommend()}
-            >
-              <span className="absolute right-0 transition-transform translate-x-full group-hover:-translate-x-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-slate-100"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
+          <div className="flex flex-row item-center justify-center">
+            {recommending ? (
+              <button className="btn btn-square loading"></button>
+            ) : (
+              <button
+                className="relative inline-flex px-8 py-3 items-center overflow-hidden text-teal-600 border border-current rounded group active:text-teal-500 focus:outline-none focus:ring"
+                type="button"
+                onClick={() => onClickRecommend()}
+              >
+                <span className="absolute right-0 transition-transform translate-x-full group-hover:-translate-x-4">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-slate-100"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </span>
 
-              <span className="text-sm font-comforta text-slate-100 ite font-medium transition-all group-hover:mr-4">
-                Recommend
-              </span>
-            </button>
-          )}
+                <span className="text-sm font-comforta text-slate-100 ite font-medium transition-all group-hover:mr-4">
+                  Recommend
+                </span>
+              </button>
+            )}
+            {selectedMovies.length > 0 && recommended.length > 0 ? (
+              <div>
+                <button
+                  className="relative ml-2 inline-flex px-8 py-3 items-center overflow-hidden text-teal-600 border border-current rounded group active:text-teal-500 focus:outline-none focus:ring"
+                  type="button"
+                  onClick={() => onClickClear()}
+                >
+                  <span className="absolute right-0 transition-transform translate-x-full group-hover:-translate-x-4">
+                    <AiOutlineClear size={22} className={"text-slate-100"} />
+                  </span>
+
+                  <span className="text-sm font-comforta text-slate-100 font-medium transition-all group-hover:mr-4">
+                    Clear
+                  </span>
+                </button>
+              </div>
+            ) : null}
+          </div>
         </div>
         {matchedMovies.length > 0 ? (
           <SearchList
@@ -237,6 +322,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
+        <RecCounter />
         <div>
           <div
             className={`text-sm  font-light text-gray-500 font-comforta justify-start items-start`}
