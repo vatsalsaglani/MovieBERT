@@ -73,7 +73,7 @@ export const SwipingCrewSmall = ({ crew }) => {
       <Swiper
         slidesPerView={1}
         spaceBetween={20}
-        slidesPerGroup={4}
+        slidesPerGroup={1}
         loop={true}
         loopFillGroupWithBlank={true}
         navigation={true}
