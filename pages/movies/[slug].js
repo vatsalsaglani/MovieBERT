@@ -7,6 +7,7 @@ import { SwipingCast, SwipingCastSmall } from "../../components/SwipingCast";
 import { SwipingCrew, SwipingCrewSmall } from "../../components/SwipingCrew";
 import { YouMayLike, YouMayLikeSmall } from "../../components/YouMayLike";
 import { OTTProvider } from "../../components/OTTProviders";
+import { urls } from "../../urls";
 
 const Movie = () => {
   const [movie, setMovieInfo] = useState(null);
@@ -39,6 +40,37 @@ const Movie = () => {
         <div className="p-2 flex flex-col ">
           <Head>
             <title>{movie.Meta[0].title}</title>
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+              key="viewport"
+            />
+            <meta name="description" content={movie?.Meta[0]?.overview} />
+            <meta property="og:title" content={movie.Meta[0].title} />
+            <meta
+              property="og:description"
+              content={movie?.Meta[0]?.overview}
+            />
+            <meta
+              property="og:image"
+              content={`${urls.img_url}${movie?.Posters[0]?.path}`}
+            />
+            <meta property="og:url" content={"https://www.moviebert.ml"} />
+            <meta property="og:type" content={"article"} />
+            <meta property="og:locale" content="en_US" />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:site" content="@saglanivatsal" />
+            <meta name="twitter:creator" content="@saglanivatsal" />
+            <meta name="twitter:title" content={movie.Meta[0].title} />
+            <meta
+              name="twitter:image"
+              content={`${urls.img_url}${movie?.Posters[0]?.path}`}
+            />
+            <meta
+              name="twitter:description"
+              content={movie?.Meta[0]?.overview}
+            />
           </Head>
           <div className="p-2 space-y-2 flex flex-col md:flex-row md:justify-around md:items-start ">
             <div className="space-y-2">
