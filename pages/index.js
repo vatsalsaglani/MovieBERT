@@ -99,6 +99,56 @@ export default function Home() {
     >
       <Head>
         <title>MovieBERT</title>
+        <meta
+          name="viewport"
+          content="initial-scale=1.0, width=device-width"
+          key="viewport"
+        />
+        <meta
+          name="description"
+          content={
+            "Hi, I am MovieBERT. I will recommend you good movies to watch based on you past viewing experience. I am still being trained on a lot of data so some recommendation might not be exactly accurate as well"
+          }
+        />
+        <meta
+          property="og:title"
+          content={
+            "MovieBERT Demo: A BERT based collaborative filtering model trained on the MovieLens dataset"
+          }
+        />
+        <meta
+          property="og:description"
+          content={
+            "Hi, I am MovieBERT. I will recommend you good movies to watch based on you past viewing experience. I am still being trained on a lot of data so some recommendation might not be exactly accurate as well"
+          }
+        />
+        <meta
+          property="og:image"
+          content="https://vs-bucket-allthings.s3.us-east-2.amazonaws.com/moviebert.png"
+        />
+        <meta property="og:url" content={"https://www.moviebert.ml"} />
+        <meta property="og:type" content={"article"} />
+        <meta property="og:locale" content="en_US" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@saglanivatsal" />
+        <meta name="twitter:creator" content="@saglanivatsal" />
+        <meta
+          name="twitter:title"
+          content={
+            "MovieBERT Demo: A BERT based collaborative filtering model trained on the MovieLens dataset"
+          }
+        />
+        <meta
+          name="twitter:image"
+          content="https://vs-bucket-allthings.s3.us-east-2.amazonaws.com/moviebert.png"
+        />
+        <meta
+          name="twitter:description"
+          content={
+            "Hi, I am MovieBERT. I will recommend you good movies to watch based on you past viewing experience. I am still being trained on a lot of data so some recommendation might not be exactly accurate as well"
+          }
+        />
       </Head>
       <div
         className={`flex min-h-screen flex-col justify-center items-center space-y-4`}
@@ -155,7 +205,7 @@ export default function Home() {
           />
         ) : null}
         {matchedMovies.length === 0 && selectedMovies.length > 0 ? (
-          <div className="w-[60vw] justify-start items-start grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
+          <div className="w-[60vw] mb-4 justify-start items-start grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 md:gap-2">
             {selectedMovies.map((movie, index) => {
               return (
                 <div key={index} className="">
@@ -167,9 +217,15 @@ export default function Home() {
         ) : null}
       </div>
       <Toaster />
-      <footer className="px-2 md:px-4 flex flex-row justify-between items-center mt-[-5vh] mb-[5vh]">
+      <footer
+        className={`px-2 md:px-4 flex flex-row justify-between items-center  ${
+          (matchedMovies.length === 0) & (selectedMovies.length !== 0)
+            ? "mt-[2vh]"
+            : "mt-[-5vh]"
+        }  mb-[5vh]`}
+      >
         <div
-          className={`text-sm  font-light text-gray-600 italic font-comforta justify-start items-start`}
+          className={`text-sm  font-light text-gray-500 font-comforta justify-start items-start`}
         >
           Developed by:{" "}
           <Link href={"https://twitter.com/saglanivatsal"} target={"blank"}>
@@ -183,7 +239,7 @@ export default function Home() {
         </div>
         <div>
           <div
-            className={`text-sm  font-light text-gray-600 italic font-comforta justify-start items-start`}
+            className={`text-sm  font-light text-gray-500 font-comforta justify-start items-start`}
           >
             <Link href={"https://www.vatsalsaglani.dev"} target={"blank"}>
               <a
