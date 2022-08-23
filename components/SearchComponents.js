@@ -104,11 +104,11 @@ export const Result = ({ result, selections, setSelections }) => {
   let [isSelected, setIsSelected] = useState(false);
   const onSelect = () => {
     if (isSelected) {
-      setSelections(
-        ...selections.filter((item) => item.movieId !== result.movieId)
-      );
+      setSelections([
+        ...selections.filter((item) => item.movieId !== result.movieId),
+      ]);
     } else {
-      setSelections([...selections, result]);
+      setSelections([result, ...selections]);
     }
     setIsSelected(!isSelected);
   };
