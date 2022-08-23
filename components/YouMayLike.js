@@ -103,7 +103,7 @@ export const YouMayLikeSmall = ({ selectedId }) => {
       <Swiper
         slidesPerView={1}
         spaceBetween={20}
-        slidesPerGroup={4}
+        slidesPerGroup={1}
         loop={true}
         loopFillGroupWithBlank={true}
         navigation={true}
