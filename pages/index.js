@@ -42,6 +42,11 @@ export default function Home() {
   // const [recCounts, setRecCounts] = useState("");
   // console.log("URLS: ", urls);
   // console.log(process.env.REC_URL, process.env.IMG_URL)
+
+  // useEffect(() => {
+
+  // }, []);
+
   useEffect(() => {
     const warmup = async () => {
       const resp = await fetch("/api/recommendations", {
@@ -64,6 +69,15 @@ export default function Home() {
     //   console.log("DATA: ", data);
     //   setRecCounts(data.num_recs);
     // };
+    // console.log("TOAST")
+    CustomToast(
+      {
+        title:
+          "Search and select at least three movies to generate recommendations",
+        info: "To get better results please provide at least three movies you have watched and liked",
+      },
+      true
+    );
     warmup();
     // views();
   }, []);
@@ -219,6 +233,7 @@ export default function Home() {
       <div
         className={`flex min-h-screen flex-col justify-center items-center space-y-4`}
       >
+        <Toaster />
         <div className="items-center justify-center">
           <div
             className={`text-3xl font-extrabold text-teal-300 tracking-wider font-comforta `}
@@ -301,7 +316,7 @@ export default function Home() {
           </div>
         ) : null}
       </div>
-      <Toaster />
+
       <footer
         className={`px-2 md:px-4 flex flex-row justify-between items-center  ${
           (matchedMovies.length === 0) & (selectedMovies.length !== 0)
