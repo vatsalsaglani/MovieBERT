@@ -13,6 +13,8 @@ export const YouMayLike = ({ selectedId }) => {
   const [loading, setLoading] = useState(true);
   const [recommended, setRecommended] = useState([]);
 
+
+  
   useEffect(() => {
     const get_movies = async () => {
       const resp = await fetch("/api/recommendations", {
